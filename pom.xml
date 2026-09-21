@@ -9,6 +9,11 @@
     <artifactId>proyecto-empleados</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <properties>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties>
 <modules>
     <module>empleados-core</module>
     <module>empleados-ui</module>
