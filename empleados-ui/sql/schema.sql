@@ -1,4 +1,4 @@
-CREATE DATABASE proyecto_empleados;
+CREATE DATABASE IF NOT EXISTS proyecto_empleados;
 USE proyecto_empleados;
 CREATE TABLE empleados (
 	    id INT AUTO_INCREMENT PRIMARY KEY,
