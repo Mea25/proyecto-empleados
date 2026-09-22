@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import edu.umg.programacion2.proyecto.modelo.Empleado;
 
@@ -31,17 +32,46 @@ public class EmpleadoDAO {
         return empleado;
     }
 
-        public List<Empleado> listarTodos() throws SQLException {
+    public List<Empleado> listarTodos() throws SQLException {
 
-            String sql = "SELECT * FROM empleados";
+        String sql = "SELECT * FROM empleados";
 
-            List<Empleado> empleados = new ArrayList<>();
+        List<Empleado> empleados = new ArrayList<>();
 
-            try (Connection conexion = ConexionBD.conectar();
-                 PreparedStatement ps = conexion.prepareStatement(sql);
-                 ResultSet rs = ps.executeQuery()) {
+        try (Connection conexion = ConexionBD.conectar();
+             PreparedStatement ps = conexion.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-                while (rs.next()) {
+            while (rs.next()) {
+
+                Empleado empleado = new Empleado(
+                        rs.getInt("id"),
+                        rs.getString("nombre"),
+                        rs.getString("departamento"),
+                        rs.getBigDecimal("salario"),
+                        rs.getDate("fecha_contratacion").toLocalDate(),
+                        rs.getBoolean("activo")
+                );
+
+                empleados.add(empleado);
+            }
+        }
+
+        return empleados;
+    }
+    
+    public Optional<Empleado> buscarPorId(int id) throws SQLException {
+
+        String sql = "SELECT * FROM empleados WHERE id = ?";
+
+        try (Connection conexion = ConexionBD.conectar();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
 
                     Empleado empleado = new Empleado(
                             rs.getInt("id"),
@@ -52,10 +82,11 @@ public class EmpleadoDAO {
                             rs.getBoolean("activo")
                     );
 
-                    empleados.add(empleado);
+                    return Optional.of(empleado);
                 }
             }
-
-            return empleados;
         }
+
+        return Optional.empty();
+    }
 }
