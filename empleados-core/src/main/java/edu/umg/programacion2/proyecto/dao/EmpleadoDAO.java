@@ -89,4 +89,30 @@ public class EmpleadoDAO {
 
         return Optional.empty();
     }
+    
+    public boolean actualizar(Empleado empleado) throws SQLException {
+
+        String sql = "UPDATE empleados SET "
+                + "nombre = ?, "
+                + "departamento = ?, "
+                + "salario = ?, "
+                + "fecha_contratacion = ?, "
+                + "activo = ? "
+                + "WHERE id = ?";
+
+        try (Connection conexion = ConexionBD.conectar();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setString(1, empleado.getNombre());
+            ps.setString(2, empleado.getDepartamento());
+            ps.setBigDecimal(3, empleado.getSalario());
+            ps.setDate(4, java.sql.Date.valueOf(empleado.getFechaContratacion()));
+            ps.setBoolean(5, empleado.isActivo());
+            ps.setInt(6, empleado.getId());
+
+            int filasAfectadas = ps.executeUpdate();
+
+            return filasAfectadas > 0;
+        }
+    }
 }
