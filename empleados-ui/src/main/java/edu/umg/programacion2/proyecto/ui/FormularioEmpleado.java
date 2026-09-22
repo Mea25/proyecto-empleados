@@ -131,13 +131,115 @@ public class FormularioEmpleado {
             String salarioTexto = txtSalario.getText().trim();
             String fechaTexto = txtFechaContratacion.getText().trim();
 
-            BigDecimal salario = new BigDecimal(salarioTexto);
+            // Validar nombre
+            if (nombre.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "El nombre es obligatorio.",
+                        "Validación",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                txtNombre.requestFocus();
+                return;
+            }
 
-            LocalDate fecha = LocalDate.parse(fechaTexto);
+            // Validar departamento
+            if (departamento.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "El departamento es obligatorio.",
+                        "Validación",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                txtDepartamento.requestFocus();
+                return;
+            }
+
+            // Validar salario vacío
+            if (salarioTexto.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "El salario es obligatorio.",
+                        "Validación",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                txtSalario.requestFocus();
+                return;
+            }
+
+            // Convertir y validar salario
+            BigDecimal salario;
+
+            try {
+                salario = new BigDecimal(salarioTexto);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "El salario debe ser un número válido.",
+                        "Validación",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                txtSalario.requestFocus();
+                return;
+            }
+
+            if (salario.compareTo(BigDecimal.ZERO) <= 0) {
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "El salario debe ser mayor que 0.",
+                        "Validación",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                txtSalario.requestFocus();
+                return;
+            }
+
+            // Validar fecha vacía
+            if (fechaTexto.isEmpty()) {
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "La fecha de contratación es obligatoria.",
+                        "Validación",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                txtFechaContratacion.requestFocus();
+                return;
+            }
+
+            // Convertir fecha
+            LocalDate fecha;
+
+            try {
+                fecha = LocalDate.parse(fechaTexto);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "La fecha debe tener el formato AAAA-MM-DD.",
+                        "Validación",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                txtFechaContratacion.requestFocus();
+                return;
+            }
+
+            // La fecha no puede ser futura
+            if (fecha.isAfter(LocalDate.now())) {
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "La fecha de contratación no puede ser futura.",
+                        "Validación",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                txtFechaContratacion.requestFocus();
+                return;
+            }
+
+            // =========================
+            // REGISTRAR
+            // =========================
 
             if (empleadoEditar == null) {
 
-                // REGISTRAR
                 Empleado empleado = new Empleado(
                         nombre,
                         departamento,
@@ -157,7 +259,10 @@ public class FormularioEmpleado {
 
             } else {
 
+                // =========================
                 // EDITAR
+                // =========================
+
                 empleadoEditar.setNombre(nombre);
                 empleadoEditar.setDepartamento(departamento);
                 empleadoEditar.setSalario(salario);
@@ -186,7 +291,7 @@ public class FormularioEmpleado {
                 }
             }
 
-            // Avisar a VentanaPrincipal para recargar la tabla
+            // Recargar la tabla
             if (alGuardar != null) {
                 alGuardar.run();
             }
