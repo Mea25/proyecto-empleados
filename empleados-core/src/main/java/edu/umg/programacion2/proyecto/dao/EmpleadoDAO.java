@@ -115,4 +115,19 @@ public class EmpleadoDAO {
             return filasAfectadas > 0;
         }
     }
+    
+    public boolean eliminar(int id) throws SQLException {
+
+        String sql = "DELETE FROM empleados WHERE id = ?";
+
+        try (Connection conexion = ConexionBD.conectar();
+             PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            int filasAfectadas = ps.executeUpdate();
+
+            return filasAfectadas > 0;
+        }
+    }
 }
