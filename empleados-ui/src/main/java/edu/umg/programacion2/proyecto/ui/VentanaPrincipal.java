@@ -203,14 +203,20 @@ public class VentanaPrincipal {
                 0
         );
 
-        int respuesta = JOptionPane.showConfirmDialog(
-                ventana,
-                "¿Está seguro de eliminar este empleado?",
-                "Confirmar eliminación",
-                JOptionPane.YES_NO_OPTION
+        String[] opciones = {"Sí", "No"};
+
+        int respuesta = JOptionPane.showOptionDialog(
+            ventana,
+            "¿Está seguro de eliminar este empleado?",
+            "Confirmar eliminación",
+            JOptionPane.DEFAULT_OPTION,
+            JOptionPane.WARNING_MESSAGE,
+            null,
+            opciones,
+            opciones[1]
         );
 
-        if (respuesta != JOptionPane.YES_OPTION) {
+        if (respuesta != 0) {
             return;
         }
 
