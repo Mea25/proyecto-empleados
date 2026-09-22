@@ -3,6 +3,9 @@ package edu.umg.programacion2.proyecto.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.umg.programacion2.proyecto.modelo.Empleado;
 
@@ -25,7 +28,34 @@ public class EmpleadoDAO {
 
             ps.executeUpdate();
         }
-
         return empleado;
     }
+
+        public List<Empleado> listarTodos() throws SQLException {
+
+            String sql = "SELECT * FROM empleados";
+
+            List<Empleado> empleados = new ArrayList<>();
+
+            try (Connection conexion = ConexionBD.conectar();
+                 PreparedStatement ps = conexion.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Empleado empleado = new Empleado(
+                            rs.getInt("id"),
+                            rs.getString("nombre"),
+                            rs.getString("departamento"),
+                            rs.getBigDecimal("salario"),
+                            rs.getDate("fecha_contratacion").toLocalDate(),
+                            rs.getBoolean("activo")
+                    );
+
+                    empleados.add(empleado);
+                }
+            }
+
+            return empleados;
+        }
 }
