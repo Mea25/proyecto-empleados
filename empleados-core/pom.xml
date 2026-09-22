@@ -8,4 +8,11 @@
   <groupId>edu.umg.programacion2</groupId>
   <artifactId>empleados-core</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+    <dependency>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
+        <version>8.4.0</version>
+    </dependency>
+</dependencies>
 </project>
