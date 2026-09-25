@@ -2,6 +2,8 @@ package edu.umg.programacion2.proyecto.ui;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -21,13 +23,11 @@ public class VentanaPrincipal {
     private JFrame ventana;
     private JTable tabla;
     private DefaultTableModel modeloTabla;
-
     private EmpleadoDAO dao;
 
     public VentanaPrincipal() {
 
         ventana = new JFrame("Gestión de Empleados");
-
         ventana.setSize(900, 500);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ventana.setLocationRelativeTo(null);
@@ -44,21 +44,20 @@ public class VentanaPrincipal {
 
         // Tabla
         String[] columnas = {
-        	    "ID",
-        	    "Nombre",
-        	    "Departamento",
-        	    "Correo",
-        	    "Salario",
-        	    "Fecha contratación",
-        	    "Activo"
-        	};
+                "ID",
+                "Nombre",
+                "Departamento",
+                "Correo",
+                "Salario",
+                "Fecha contratación",
+                "Activo",
+                "Antigüedad"
+        };
 
         modeloTabla = new DefaultTableModel(columnas, 0);
-
         tabla = new JTable(modeloTabla);
 
         JScrollPane scroll = new JScrollPane(tabla);
-
         ventana.add(scroll, BorderLayout.CENTER);
 
         // Botones
@@ -66,9 +65,8 @@ public class VentanaPrincipal {
         JButton btnEditar = new JButton("Editar");
         JButton btnEliminar = new JButton("Eliminar");
 
-        javax.swing.JPanel panelBotones = new javax.swing.JPanel(
-                new FlowLayout()
-        );
+        javax.swing.JPanel panelBotones =
+                new javax.swing.JPanel(new FlowLayout());
 
         panelBotones.add(btnRegistrar);
         panelBotones.add(btnEditar);
@@ -78,13 +76,11 @@ public class VentanaPrincipal {
 
         // Registrar
         btnRegistrar.addActionListener(e -> {
-
             FormularioEmpleado formulario =
                     new FormularioEmpleado(
                             null,
                             this::cargarEmpleados
                     );
-
             formulario.mostrar();
         });
 
@@ -97,6 +93,17 @@ public class VentanaPrincipal {
         cargarEmpleados();
     }
 
+    // Calcula la antigüedad en Java.
+    // Este dato NO se guarda en la base de datos.
+    private String calcularAntiguedad(LocalDate fechaContratacion) {
+
+        Period periodo =
+                Period.between(fechaContratacion, LocalDate.now());
+
+        return periodo.getYears() + " años, "
+                + periodo.getMonths() + " meses";
+    }
+
     private void cargarEmpleados() {
 
         modeloTabla.setRowCount(0);
@@ -107,15 +114,18 @@ public class VentanaPrincipal {
 
             for (Empleado empleado : empleados) {
 
-            	modeloTabla.addRow(new Object[] {
-            		    empleado.getId(),
-            		    empleado.getNombre(),
-            		    empleado.getDepartamento(),
-            		    empleado.getCorreo(),
-            		    empleado.getSalario(),
-            		    empleado.getFechaContratacion(),
-            		    empleado.isActivo() ? "Sí" : "No"
-            		});
+                modeloTabla.addRow(new Object[] {
+                        empleado.getId(),
+                        empleado.getNombre(),
+                        empleado.getDepartamento(),
+                        empleado.getCorreo(),
+                        empleado.getSalario(),
+                        empleado.getFechaContratacion(),
+                        empleado.isActivo() ? "Sí" : "No",
+                        calcularAntiguedad(
+                                empleado.getFechaContratacion()
+                        )
+                });
             }
 
         } catch (Exception e) {
@@ -123,7 +133,7 @@ public class VentanaPrincipal {
             JOptionPane.showMessageDialog(
                     ventana,
                     "Error al cargar los empleados:\n"
-                    + e.getMessage(),
+                            + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );
@@ -179,7 +189,7 @@ public class VentanaPrincipal {
             JOptionPane.showMessageDialog(
                     ventana,
                     "Error al buscar empleado:\n"
-                    + e.getMessage(),
+                            + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );
@@ -208,14 +218,14 @@ public class VentanaPrincipal {
         String[] opciones = {"Sí", "No"};
 
         int respuesta = JOptionPane.showOptionDialog(
-            ventana,
-            "¿Está seguro de eliminar este empleado?",
-            "Confirmar eliminación",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.WARNING_MESSAGE,
-            null,
-            opciones,
-            opciones[1]
+                ventana,
+                "¿Está seguro de eliminar este empleado?",
+                "Confirmar eliminación",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                opciones,
+                opciones[1]
         );
 
         if (respuesta != 0) {
@@ -248,7 +258,7 @@ public class VentanaPrincipal {
             JOptionPane.showMessageDialog(
                     ventana,
                     "Error al eliminar empleado:\n"
-                    + e.getMessage(),
+                            + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE
             );
