@@ -20,6 +20,7 @@ public class FormularioEmpleado {
 
     private JTextField txtNombre;
     private JTextField txtDepartamento;
+    private JTextField txtCorreo;
     private JTextField txtSalario;
     private JTextField txtFechaContratacion;
 
@@ -58,6 +59,9 @@ public class FormularioEmpleado {
 
         JLabel lblDepartamento = new JLabel("Departamento:");
         txtDepartamento = new JTextField();
+        
+        JLabel lblCorreo = new JLabel("Correo:");
+        txtCorreo = new JTextField();
 
         JLabel lblSalario = new JLabel("Salario:");
         txtSalario = new JTextField();
@@ -85,6 +89,9 @@ public class FormularioEmpleado {
 
         ventana.add(lblDepartamento);
         ventana.add(txtDepartamento);
+        
+        ventana.add(lblCorreo);
+        ventana.add(txtCorreo);
 
         ventana.add(lblSalario);
         ventana.add(txtSalario);
@@ -103,6 +110,7 @@ public class FormularioEmpleado {
 
             txtNombre.setText(empleadoEditar.getNombre());
             txtDepartamento.setText(empleadoEditar.getDepartamento());
+            txtCorreo.setText(empleadoEditar.getCorreo());
             txtSalario.setText(empleadoEditar.getSalario().toString());
             txtFechaContratacion.setText(
                     empleadoEditar.getFechaContratacion().toString()
@@ -128,6 +136,7 @@ public class FormularioEmpleado {
 
             String nombre = txtNombre.getText().trim();
             String departamento = txtDepartamento.getText().trim();
+            String correo = txtCorreo.getText().trim();
             String salarioTexto = txtSalario.getText().trim();
             String fechaTexto = txtFechaContratacion.getText().trim();
 
@@ -243,6 +252,7 @@ public class FormularioEmpleado {
                 Empleado empleado = new Empleado(
                         nombre,
                         departamento,
+                        correo,
                         salario,
                         fecha,
                         chkActivo.isSelected()
@@ -265,6 +275,7 @@ public class FormularioEmpleado {
 
                 empleadoEditar.setNombre(nombre);
                 empleadoEditar.setDepartamento(departamento);
+                empleadoEditar.setCorreo(correo);
                 empleadoEditar.setSalario(salario);
                 empleadoEditar.setFechaContratacion(fecha);
                 empleadoEditar.setActivo(chkActivo.isSelected());

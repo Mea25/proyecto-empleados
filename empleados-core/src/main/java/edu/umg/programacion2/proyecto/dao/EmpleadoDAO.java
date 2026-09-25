@@ -12,25 +12,27 @@ import edu.umg.programacion2.proyecto.modelo.Empleado;
 
 public class EmpleadoDAO {
 
-    public Empleado crear(Empleado empleado) throws SQLException {
+	public Empleado crear(Empleado empleado) throws SQLException {
 
-        String sql = "INSERT INTO empleados "
-                + "(nombre, departamento, salario, fecha_contratacion, activo) "
-                + "VALUES (?, ?, ?, ?, ?)";
+	    String sql = "INSERT INTO empleados "
+	            + "(nombre, correo, departamento, salario, fecha_contratacion, activo) "
+	            + "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conexion = ConexionBD.conectar();
-             PreparedStatement ps = conexion.prepareStatement(sql)) {
+	    try (Connection conexion = ConexionBD.conectar();
+	         PreparedStatement ps = conexion.prepareStatement(sql)) {
 
-            ps.setString(1, empleado.getNombre());
-            ps.setString(2, empleado.getDepartamento());
-            ps.setBigDecimal(3, empleado.getSalario());
-            ps.setDate(4, java.sql.Date.valueOf(empleado.getFechaContratacion()));
-            ps.setBoolean(5, empleado.isActivo());
+	        ps.setString(1, empleado.getNombre());
+	        ps.setString(2, empleado.getCorreo());
+	        ps.setString(3, empleado.getDepartamento());
+	        ps.setBigDecimal(4, empleado.getSalario());
+	        ps.setDate(5, java.sql.Date.valueOf(empleado.getFechaContratacion()));
+	        ps.setBoolean(6, empleado.isActivo());
 
-            ps.executeUpdate();
-        }
-        return empleado;
-    }
+	        ps.executeUpdate();
+	    }
+
+	    return empleado;
+	}
 
     public List<Empleado> listarTodos() throws SQLException {
 
@@ -48,6 +50,7 @@ public class EmpleadoDAO {
                         rs.getInt("id"),
                         rs.getString("nombre"),
                         rs.getString("departamento"),
+                        rs.getString("correo"),
                         rs.getBigDecimal("salario"),
                         rs.getDate("fecha_contratacion").toLocalDate(),
                         rs.getBoolean("activo")
@@ -77,6 +80,7 @@ public class EmpleadoDAO {
                             rs.getInt("id"),
                             rs.getString("nombre"),
                             rs.getString("departamento"),
+                            rs.getString("correo"),
                             rs.getBigDecimal("salario"),
                             rs.getDate("fecha_contratacion").toLocalDate(),
                             rs.getBoolean("activo")
@@ -95,6 +99,7 @@ public class EmpleadoDAO {
         String sql = "UPDATE empleados SET "
                 + "nombre = ?, "
                 + "departamento = ?, "
+                + "correo = ?, "
                 + "salario = ?, "
                 + "fecha_contratacion = ?, "
                 + "activo = ? "
@@ -105,14 +110,13 @@ public class EmpleadoDAO {
 
             ps.setString(1, empleado.getNombre());
             ps.setString(2, empleado.getDepartamento());
-            ps.setBigDecimal(3, empleado.getSalario());
-            ps.setDate(4, java.sql.Date.valueOf(empleado.getFechaContratacion()));
-            ps.setBoolean(5, empleado.isActivo());
-            ps.setInt(6, empleado.getId());
+            ps.setString(3, empleado.getCorreo());
+            ps.setBigDecimal(4, empleado.getSalario());
+            ps.setDate(5, java.sql.Date.valueOf(empleado.getFechaContratacion()));
+            ps.setBoolean(6, empleado.isActivo());
+            ps.setInt(7, empleado.getId());
 
-            int filasAfectadas = ps.executeUpdate();
-
-            return filasAfectadas > 0;
+            return ps.executeUpdate() > 0;
         }
     }
     

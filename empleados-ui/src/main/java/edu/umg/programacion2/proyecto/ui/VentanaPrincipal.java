@@ -44,13 +44,14 @@ public class VentanaPrincipal {
 
         // Tabla
         String[] columnas = {
-            "ID",
-            "Nombre",
-            "Departamento",
-            "Salario",
-            "Fecha contratación",
-            "Activo"
-        };
+        	    "ID",
+        	    "Nombre",
+        	    "Departamento",
+        	    "Correo",
+        	    "Salario",
+        	    "Fecha contratación",
+        	    "Activo"
+        	};
 
         modeloTabla = new DefaultTableModel(columnas, 0);
 
@@ -106,14 +107,15 @@ public class VentanaPrincipal {
 
             for (Empleado empleado : empleados) {
 
-                modeloTabla.addRow(new Object[] {
-                    empleado.getId(),
-                    empleado.getNombre(),
-                    empleado.getDepartamento(),
-                    empleado.getSalario(),
-                    empleado.getFechaContratacion(),
-                    empleado.isActivo() ? "Sí" : "No"
-                });
+            	modeloTabla.addRow(new Object[] {
+            		    empleado.getId(),
+            		    empleado.getNombre(),
+            		    empleado.getDepartamento(),
+            		    empleado.getCorreo(),
+            		    empleado.getSalario(),
+            		    empleado.getFechaContratacion(),
+            		    empleado.isActivo() ? "Sí" : "No"
+            		});
             }
 
         } catch (Exception e) {

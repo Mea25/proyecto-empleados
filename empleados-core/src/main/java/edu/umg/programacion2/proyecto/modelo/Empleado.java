@@ -7,18 +7,20 @@ public class Empleado {
     private int id;
     private String nombre;
     private String departamento;
+    private String correo;
     private BigDecimal salario;
     private LocalDate fechaContratacion;
     private boolean activo;
 
-    public Empleado(String nombre, String departamento, BigDecimal salario,
-            LocalDate fechaContratacion, boolean activo) {
-this.nombre = nombre;
-this.departamento = departamento;
-this.salario = salario;
-this.fechaContratacion = fechaContratacion;
-this.activo = activo;
-}
+    public Empleado(String nombre, String departamento, String correo,
+            BigDecimal salario, LocalDate fechaContratacion, boolean activo) {
+        this.nombre = nombre;
+        this.departamento = departamento;
+        this.correo = correo;
+        this.salario = salario;
+        this.fechaContratacion = fechaContratacion;
+        this.activo = activo;
+    }
     
     public int getId() {
 		return id;
@@ -44,6 +46,13 @@ this.activo = activo;
 		this.departamento = departamento;
 	}
 
+	public String getCorreo() {
+	    return correo;
+	}
+
+	public void setCorreo(String correo) {
+	    this.correo = correo;
+	}
 	public BigDecimal getSalario() {
 		return salario;
 	}
@@ -68,13 +77,14 @@ this.activo = activo;
 		this.activo = activo;
 	}
 
-	public Empleado(int id, String nombre, String departamento, BigDecimal salario,
-            LocalDate fechaContratacion, boolean activo) {
-this.id = id;
-this.nombre = nombre;
-this.departamento = departamento;
-this.salario = salario;
-this.fechaContratacion = fechaContratacion;
-this.activo = activo;
-}
+	public Empleado(int id, String nombre, String departamento, String correo,
+	        BigDecimal salario, LocalDate fechaContratacion, boolean activo) {
+	    this.id = id;
+	    this.nombre = nombre;
+	    this.departamento = departamento;
+	    this.correo = correo;
+	    this.salario = salario;
+	    this.fechaContratacion = fechaContratacion;
+	    this.activo = activo;
+	}
 }
